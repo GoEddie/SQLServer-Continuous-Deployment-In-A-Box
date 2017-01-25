@@ -33,7 +33,7 @@ function Get-ModelVersion{
     param([int]$version)
     $number = -1
     switch($version){
-        2005{$number=90}
+        
         2008{$number=100}
         2012{$number=110}
         2014{$number=120}
@@ -109,7 +109,7 @@ $configured = $false
 
 while(!$configured){
     
-    Write-Host "**`r`n     What version of SQL Server will you be targetting? Please enter one of '2005, 2008, 2012, 2014, 2016'     ***`r`n"  -BackgroundColor $backColour -ForegroundColor $foreColour
+    Write-Host "**`r`n     What version of SQL Server will you be targetting? Please enter one of '2008, 2012, 2014, 2016'     ***`r`n"  -BackgroundColor $backColour -ForegroundColor $foreColour
     $configured = Configure-SSDT
 
 }

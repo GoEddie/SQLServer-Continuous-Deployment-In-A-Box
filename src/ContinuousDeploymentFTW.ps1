@@ -1,6 +1,19 @@
 $backColour = "White"
 $foreColour = "Black"
 
+function Test-Administrator  
+{  
+    $user = [Security.Principal.WindowsIdentity]::GetCurrent();
+    (New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)  
+}
+
+if(!(Test-Administrator)){
+
+	Write-Host "Sorry you must run this as an admin, do it on a test vm :)"
+	exit
+
+}
+
 $root = [System.IO.Path]::GetDirectoryName($myInvocation.MyCommand.Definition)
 $script = (Join-Path $root -ChildPath "choco-install.ps1")
 

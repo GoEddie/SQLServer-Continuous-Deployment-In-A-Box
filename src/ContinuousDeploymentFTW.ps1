@@ -35,3 +35,9 @@ Write-Host "*                                                                   
 Write-Host "*  When Jenkins has installed and you can see his happy face, press c to continue...(this is going to be epic btw)      *"
 Write-Host "*                                                                            (unless you do ctrl+c which would be awful *"
 Write-Host "*************************************************************************************************************************"
+
+
+$c = "a"
+while($c -ne "c"){
+    $c = Read-Host
+}

@@ -1,0 +1,97 @@
+== Info: Rebuilt URL to: http://wwkjkj.com/
+== Info:   Trying 92.242.132.15...
+== Info: TCP_NODELAY set
+== Info: Connected to wwkjkj.com (92.242.132.15) port 80 (#0)
+=> Send header, 74 bytes (0x4a)
+0000: 47 45 54 20 2f 20 48 54 54 50 2f 31 2e 31 0d 0a GET / HTTP/1.1..
+0010: 48 6f 73 74 3a 20 77 77 6b 6a 6b 6a 2e 63 6f 6d Host: wwkjkj.com
+0020: 0d 0a 55 73 65 72 2d 41 67 65 6e 74 3a 20 63 75 ..User-Agent: cu
+0030: 72 6c 2f 37 2e 35 32 2e 31 0d 0a 41 63 63 65 70 rl/7.52.1..Accep
+0040: 74 3a 20 2a 2f 2a 0d 0a 0d 0a                   t: */*....
+<= Recv header, 17 bytes (0x11)
+0000: 48 54 54 50 2f 31 2e 31 20 32 30 30 20 4f 4b 0d HTTP/1.1 200 OK.
+0010: 0a                                              .
+<= Recv header, 15 bytes (0xf)
+0000: 53 65 72 76 65 72 3a 20 6e 67 69 6e 78 0d 0a    Server: nginx..
+<= Recv header, 37 bytes (0x25)
+0000: 44 61 74 65 3a 20 54 68 75 2c 20 30 32 20 46 65 Date: Thu, 02 Fe
+0010: 62 20 32 30 31 37 20 32 32 3a 32 30 3a 31 32 20 b 2017 22:20:12 
+0020: 47 4d 54 0d 0a                                  GMT..
+<= Recv header, 40 bytes (0x28)
+0000: 43 6f 6e 74 65 6e 74 2d 54 79 70 65 3a 20 74 65 Content-Type: te
+0010: 78 74 2f 68 74 6d 6c 3b 20 63 68 61 72 73 65 74 xt/html; charset
+0020: 3d 75 74 66 2d 38 0d 0a                         =utf-8..
+<= Recv header, 28 bytes (0x1c)
+0000: 54 72 61 6e 73 66 65 72 2d 45 6e 63 6f 64 69 6e Transfer-Encodin
+0010: 67 3a 20 63 68 75 6e 6b 65 64 0d 0a             g: chunked..
+<= Recv header, 19 bytes (0x13)
+0000: 43 6f 6e 6e 65 63 74 69 6f 6e 3a 20 63 6c 6f 73 Connection: clos
+0010: 65 0d 0a                                        e..
+<= Recv header, 40 bytes (0x28)
+0000: 45 78 70 69 72 65 73 3a 20 54 68 75 2c 20 30 32 Expires: Thu, 02
+0010: 20 46 65 62 20 32 30 31 37 20 32 32 3a 33 30 3a  Feb 2017 22:30:
+0020: 31 32 20 47 4d 54 0d 0a                         12 GMT..
+<= Recv header, 28 bytes (0x1c)
+0000: 43 61 63 68 65 2d 43 6f 6e 74 72 6f 6c 3a 20 6d Cache-Control: m
+0010: 61 78 2d 61 67 65 3d 36 30 30 0d 0a             ax-age=600..
+<= Recv header, 2 bytes (0x2)
+0000: 0d 0a                                           ..
+<= Recv data, 882 bytes (0x372)
+0000: 33 36 36 0d 0a 3c 21 44 4f 43 54 59 50 45 20 68 366..<!DOCTYPE h
+0010: 74 6d 6c 20 50 55 42 4c 49 43 20 22 2d 2f 2f 57 tml PUBLIC "-//W
+0020: 33 43 2f 2f 44 54 44 20 58 48 54 4d 4c 20 31 2e 3C//DTD XHTML 1.
+0030: 30 20 54 72 61 6e 73 69 74 69 6f 6e 61 6c 2f 2f 0 Transitional//
+0040: 45 4e 22 20 22 68 74 74 70 3a 2f 2f 77 77 77 2e EN" "http://www.
+0050: 77 33 2e 6f 72 67 2f 54 52 2f 78 68 74 6d 6c 31 w3.org/TR/xhtml1
+0060: 2f 44 54 44 2f 78 68 74 6d 6c 31 2d 74 72 61 6e /DTD/xhtml1-tran
+0070: 73 69 74 69 6f 6e 61 6c 2e 64 74 64 22 3e 3c 68 sitional.dtd"><h
+0080: 74 6d 6c 3e 3c 68 65 61 64 3e 3c 6d 65 74 61 20 tml><head><meta 
+0090: 68 74 74 70 2d 65 71 75 69 76 3d 22 72 65 66 72 http-equiv="refr
+00a0: 65 73 68 22 20 63 6f 6e 74 65 6e 74 3d 22 30 3b esh" content="0;
+00b0: 75 72 6c 3d 68 74 74 70 3a 2f 2f 77 77 77 2e 77 url=http://www.w
+00c0: 65 62 61 64 64 72 65 73 73 68 65 6c 70 2e 62 74 ebaddresshelp.bt
+00d0: 2e 63 6f 6d 2f 6d 61 69 6e 3f 50 61 72 74 69 63 .com/main?Partic
+00e0: 69 70 61 6e 74 49 44 3d 6d 67 37 36 63 6a 72 35 ipantID=mg76cjr5
+00f0: 34 74 38 6b 78 34 35 6a 6a 77 34 6a 34 6b 39 6a 4t8kx45jjw4j4k9j
+0100: 35 68 73 72 35 6d 32 36 26 46 61 69 6c 65 64 55 5hsr5m26&FailedU
+0110: 52 49 3d 68 74 74 70 25 33 41 25 32 46 25 32 46 RI=http%3A%2F%2F
+0120: 77 77 6b 6a 6b 6a 2e 63 6f 6d 25 32 46 26 46 61 wwkjkj.com%2F&Fa
+0130: 69 6c 75 72 65 4d 6f 64 65 3d 31 26 49 6d 70 6c ilureMode=1&Impl
+0140: 65 6d 65 6e 74 61 74 69 6f 6e 3d 26 41 64 64 49 ementation=&AddI
+0150: 6e 54 79 70 65 3d 34 26 56 65 72 73 69 6f 6e 3d nType=4&Version=
+0160: 70 79 77 72 31 2e 30 26 43 6c 69 65 6e 74 4c 6f pywr1.0&ClientLo
+0170: 63 61 74 69 6f 6e 3d 75 6b 22 2f 3e 3c 73 63 72 cation=uk"/><scr
+0180: 69 70 74 20 74 79 70 65 3d 22 74 65 78 74 2f 6a ipt type="text/j
+0190: 61 76 61 73 63 72 69 70 74 22 3e 75 72 6c 3d 22 avascript">url="
+01a0: 68 74 74 70 3a 2f 2f 77 77 77 2e 77 65 62 61 64 http://www.webad
+01b0: 64 72 65 73 73 68 65 6c 70 2e 62 74 2e 63 6f 6d dresshelp.bt.com
+01c0: 2f 6d 61 69 6e 3f 50 61 72 74 69 63 69 70 61 6e /main?Participan
+01d0: 74 49 44 3d 6d 67 37 36 63 6a 72 35 34 74 38 6b tID=mg76cjr54t8k
+01e0: 78 34 35 6a 6a 77 34 6a 34 6b 39 6a 35 68 73 72 x45jjw4j4k9j5hsr
+01f0: 35 6d 32 36 26 46 61 69 6c 65 64 55 52 49 3d 68 5m26&FailedURI=h
+0200: 74 74 70 25 33 41 25 32 46 25 32 46 77 77 6b 6a ttp%3A%2F%2Fwwkj
+0210: 6b 6a 2e 63 6f 6d 25 32 46 26 46 61 69 6c 75 72 kj.com%2F&Failur
+0220: 65 4d 6f 64 65 3d 31 26 49 6d 70 6c 65 6d 65 6e eMode=1&Implemen
+0230: 74 61 74 69 6f 6e 3d 26 41 64 64 49 6e 54 79 70 tation=&AddInTyp
+0240: 65 3d 34 26 56 65 72 73 69 6f 6e 3d 70 79 77 72 e=4&Version=pywr
+0250: 31 2e 30 26 43 6c 69 65 6e 74 4c 6f 63 61 74 69 1.0&ClientLocati
+0260: 6f 6e 3d 75 6b 22 3b 69 66 28 74 6f 70 2e 6c 6f on=uk";if(top.lo
+0270: 63 61 74 69 6f 6e 21 3d 6c 6f 63 61 74 69 6f 6e cation!=location
+0280: 29 7b 76 61 72 20 77 3d 77 69 6e 64 6f 77 2c 64 ){var w=window,d
+0290: 3d 64 6f 63 75 6d 65 6e 74 2c 65 3d 64 2e 64 6f =document,e=d.do
+02a0: 63 75 6d 65 6e 74 45 6c 65 6d 65 6e 74 2c 62 3d cumentElement,b=
+02b0: 64 2e 62 6f 64 79 2c 78 3d 77 2e 69 6e 6e 65 72 d.body,x=w.inner
+02c0: 57 69 64 74 68 7c 7c 65 2e 63 6c 69 65 6e 74 57 Width||e.clientW
+02d0: 69 64 74 68 7c 7c 62 2e 63 6c 69 65 6e 74 57 69 idth||b.clientWi
+02e0: 64 74 68 2c 79 3d 77 2e 69 6e 6e 65 72 48 65 69 dth,y=w.innerHei
+02f0: 67 68 74 7c 7c 65 2e 63 6c 69 65 6e 74 48 65 69 ght||e.clientHei
+0300: 67 68 74 7c 7c 62 2e 63 6c 69 65 6e 74 48 65 69 ght||b.clientHei
+0310: 67 68 74 3b 75 72 6c 2b 3d 22 26 77 3d 22 2b 78 ght;url+="&w="+x
+0320: 2b 22 26 68 3d 22 2b 79 3b 7d 77 69 6e 64 6f 77 +"&h="+y;}window
+0330: 2e 6c 6f 63 61 74 69 6f 6e 2e 72 65 70 6c 61 63 .location.replac
+0340: 65 28 75 72 6c 29 3b 3c 2f 73 63 72 69 70 74 3e e(url);</script>
+0350: 3c 2f 68 65 61 64 3e 3c 62 6f 64 79 3e 3c 2f 62 </head><body></b
+0360: 6f 64 79 3e 3c 2f 68 74 6d 6c 3e 0d 0a 30 0d 0a ody></html>..0..
+0370: 0d 0a                                           ..
+== Info: Curl_http_done: called premature == 0
+== Info: Closing connection 0

@@ -8,5 +8,5 @@ node {
 
 node {
 	stage 'Build Solution'
-	bat '"%WORKSPACE%/Deploy/BuildSolution.ps1"'
+	bat 'powershell.exe -ExecutionPolicy RemoteSigned -File "%WORKSPACE%/Deploy/BuildSolution.ps1"'
 }

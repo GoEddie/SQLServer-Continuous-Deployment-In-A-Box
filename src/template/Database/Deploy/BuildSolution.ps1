@@ -5,10 +5,14 @@ $foreColour = "Black"
 
 $msbuildPath = Join-Path ${env:ProgramFiles(x86)}  "Msbuild\14.0\bin\msbuild"
 
+Write-Host "Testing path: " $msbuildPath
+
 if(!(Test-Path $msbuildPath)){
 
     $msbuildPath = Join-Path ${env:ProgramFiles(x86)}  "Msbuild\15.0\bin\msbuild"
 }
+
+Write-Host "Testing path: " $msbuildPath
 
 if(!(Test-Path $msbuildPath)){
 
@@ -16,6 +20,10 @@ if(!(Test-Path $msbuildPath)){
     Exit(1)
 }
 
-cd $root = [System.IO.Path]::GetDirectoryName($myInvocation.MyCommand.Definition)
+Write-Host "Using path: " $msbuildPath
+
+$root = [System.IO.Path]::GetDirectoryName($myInvocation.MyCommand.Definition)
+$root
+cd $root
 cd ..
 & $msbuildPath .\Database.sln

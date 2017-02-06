@@ -5,10 +5,12 @@ $sourceDir = Join-Path $root "template\Database"
 $templateDir = Join-Path $env:HOMEPATH "Documents\CDInABox"
 $projectRoot = Join-Path $templateDir "Database" 
 
+$i = 0
+
 if (Test-Path $projectRoot){
     Write-Host "DOES NOT EXIST"
 
-    $i = 0
+    
     $project = $projectRoot
     while( Test-Path $projectRoot ){
         
@@ -109,7 +111,23 @@ while(!$configured){
 
 }
 
+
+powershell.exe -File ./ConfigureJenkins.ps1 -projectPath "$projectRoot" -projectName "$project$i"
+
+powershell.exe -File ./ConfigureDeploy.ps1  -projectPath "$projectRoot" -projectName "$project$i"
+
+
+
+
+
+
+
+
+
+
 git add .
 git commit -m "Adding template"
 
 Start-Process $projectRoot
+
+

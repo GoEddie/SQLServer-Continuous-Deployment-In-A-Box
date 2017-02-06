@@ -41,3 +41,5 @@ $c = "a"
 while($c -ne "c"){
     $c = Read-Host
 }
+
+powershell.exe -File ./ssdt-project.ps1

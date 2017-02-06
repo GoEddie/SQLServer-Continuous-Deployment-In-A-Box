@@ -60,6 +60,9 @@ Write-Host "Creating Job..." -BackgroundColor $backColour -ForegroundColor $fore
 & "$($root)\tools\curl.exe" -H "Jenkins-Crumb:$($currentCrumb)" -H "Content-Type:application/xml" -d "@jenkinsJob.xml.tmp" "http://localhost:8080/job/$($projectName)/build?delay=0" -u "$($userDetails.User):$($userDetails.Token)" 2> NULL | Out-Null
 
 
+$bashString = "#!/bin/bash`n`"$($projectRoot)\.git\tools\curl.exe`" -X POST -s -H `"Jenkins-Crumb:$($currentCrumb)`" `"http://localhost:8080/job/$($projectName)/build?delay=0`" -u `"$($userDetails.User):$($userDetails.Token)`" > /dev/nul"
+[System.IO.File]::WriteAllText((Join-Path $($projectPath) ".git\hooks\post-commit"), $bashString)
+
 Write-Host "Sleeping 5 seconds..." -BackgroundColor $backColour -ForegroundColor $foreColour
 Start-Sleep -Seconds 5
 

@@ -1,0 +1,17 @@
+node {
+   // Mark the code checkout 'stage'....
+   stage 'Checkout'
+
+   // Checkout code from repository
+   checkout scm
+}
+
+node {
+	stage 'Build Solution'
+	bat 'powershell.exe -ExecutionPolicy RemoteSigned -File "%WORKSPACE%/Deploy/BuildSolution.ps1"'
+}
+
+node {
+    stage 'Unit Tests'
+    bat 'powershell.exe -ExecutionPolicy RemoteSigned -File "%WORKSPACE%/Deploy/DeployDacpac.ps1" -projectPath "%WORKSPACE%"'
+}

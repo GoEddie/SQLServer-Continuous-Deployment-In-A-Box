@@ -1,4 +1,6 @@
-﻿
+﻿$backColour = "White"
+$foreColour = "Black"
+
 
 $root = [System.IO.Path]::GetDirectoryName($myInvocation.MyCommand.Definition)
 $sourceDir = Join-Path $root "template\Database"
@@ -7,10 +9,7 @@ $projectRoot = Join-Path $templateDir "Database"
 
 $i = 0
 
-if (Test-Path $projectRoot){
-    Write-Host "DOES NOT EXIST"
-
-    
+if (Test-Path $projectRoot){        
     $project = $projectRoot
     while( Test-Path $projectRoot ){
         
@@ -19,10 +18,12 @@ if (Test-Path $projectRoot){
     }    
 }
 
-Write-Host "Creating SSDT project in: " $projectRoot
+Write-Host "Creating SSDT project in: " $projectRoot  -BackgroundColor $backColour -ForegroundColor $foreColour
 Copy-Item -Path $sourceDir -Destination $projectRoot -Recurse
 
-Write-Host "Creating Git Repo"
+$projectRoot = (Get-Item $projectRoot).FullName
+
+Write-Host "Creating Git Repo"  -BackgroundColor $backColour -ForegroundColor $foreColour
 cd $projectRoot
 git init
 
@@ -52,7 +53,7 @@ function Copy-Libs{
     
     $dst = Join-Path $projectRoot "test\Lib"
 
-    Write-Host "Copying from: " $src " to: " $dst
+    Write-Host "Copying from: " $src " to: " $dst 
     Copy-Item $src  $dst
 }
 
@@ -106,28 +107,25 @@ $configured = $false
 
 while(!$configured){
     
-    Write-Host "**`r`n     What version of SQL Server will you be targetting? Please enter one of '2005, 2008, 2012, 2014, 2016'     ***`r`n"
+    Write-Host "**`r`n     What version of SQL Server will you be targetting? Please enter one of '2005, 2008, 2012, 2014, 2016'     ***`r`n"  -BackgroundColor $backColour -ForegroundColor $foreColour
     $configured = Configure-SSDT
 
 }
 
+$projectName = (Split-Path $projectRoot -Leaf)
 
-powershell.exe -File ./ConfigureJenkins.ps1 -projectPath "$projectRoot" -projectName "$project$i"
+powershell.exe $root/ConfigureJenkins.ps1 -projectPath "$projectRoot" -projectName $projectName
 
-powershell.exe -File ./ConfigureDeploy.ps1  -projectPath "$projectRoot" -projectName "$project$i"
-
-
-
-
-
-
-
-
-
+powershell.exe  $root/ConfigureDeploy.ps1  -projectPath "$projectRoot" -projectName $projectName
 
 git add .
 git commit -m "Adding template"
 
-Start-Process $projectRoot
 
+Write-Host "You will now see a visual studio solution (Database.sln) and a jenkins build - have a little explore, when you fix the failing unit test your build will get another step, the deploy step which is currently to generate a deployment script - you can modify it to do the actual deploy for you." -BackgroundColor $backColour -ForegroundColor $foreColour
+
+Start-Sleep -seconds 5
+
+Start-Process $projectRoot
+Start-Process "http://localhost:8080/job/$($projectName)"
 

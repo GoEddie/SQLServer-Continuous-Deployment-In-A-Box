@@ -1,5 +1,7 @@
 ﻿param([string]$projectPath, [string]$projectName)
 
+## This creates the dependencies needed to deploy and test the database locally
+
 $backColour = "White"
 $foreColour = "Black"
 
@@ -10,12 +12,12 @@ cd $projectPath\Deploy
 if(!(Test-Path ./nuget.exe)){
     wget https://dist.nuget.org/win-x86-commandline/latest/nuget.exe -OutFile ./nuget.exe
 }
-./nuget install Microsoft.Data.Tools.Msbuild
+./nuget install Microsoft.Data.Tools.Msbuild -o  $projectPath\Deploy\bin
 
 $sqlPackagePath = ""
 
-ls Microsoft.Data.Tools.Msbuild* | %{
-    $sqlpackagePath = (Join-Path $projectPath "Deploy\$($_.Name)\lib\net40")
+ls $projectPath\Deploy\bin\Microsoft.Data.Tools.Msbuild* | %{
+    $sqlpackagePath = (Join-Path $projectPath "Deploy\bin\$($_.Name)\lib\net40")
 }
 
 Write-Host "We need a database we can deploy the unit tests to, please put in a connection string we can use - this is for a test database and we will be dropping it and re-creating it for each and every build. We will call the database `"DatabaseName.UnitTests`" - if you can use a localdb instance then I would go with that otherwise a dev instance somewhere. Because we will be dropping and re-creating the database for every build we will need sa. For the `"CD in a box demo`" we will be deploying from jenkins so please setup a username/password rather than windows auth. In a real environment this can be configured to use windows auth just here it is a little hard" -BackgroundColor $backColour -ForegroundColor $foreColour
@@ -56,5 +58,13 @@ $deployScriptPath = Join-Path $projectPath "Deploy\DeployDacpac.ps1"
 
 [System.IO.File]::WriteAllText($deployScriptPath, ([System.IO.File]::ReadAllText($deployScriptPath) + "`n" + $testProjectDeployCommand))
 
+$sourceRunSettingsFile = (Join-Path $projectPath "Test\Database.UnitTests\Database.UnitTests.runsettings")
+$runSettings = [System.IO.File]::ReadAllText($sourceRunSettingsFile)
 
-./nuget install AgileSQLClub.tSQLtTestAdapter
+$runSettings = $runSettings.Replace("%CONNECTIONSTRING%", $testDbConnection)
+[System.IO.File]::WriteAllText($sourceRunSettingsFile, $runSettings)
+
+
+
+
+

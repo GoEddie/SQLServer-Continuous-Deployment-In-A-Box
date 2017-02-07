@@ -49,23 +49,23 @@ function Get-Crumb{
 
 
 $currentCrumb = Get-Crumb
-
+Write-Host "Have jenkins crumb: $currentCrumb"
 
 $sourceXml = [System.IO.File]::ReadAllText((Join-Path $($root) "jenkinsJob.xml"))
 $sourceXml = $sourceXml.Replace("%%PROJECT%%", $projectPath)
-[System.IO.File]::WriteAllText((Join-Path $($root) "jenkinsJob.xml.tmp"), $sourceXml)
-
-Write-Host "Creating Job..." -BackgroundColor $backColour -ForegroundColor $foreColour
-& "$($root)\tools\curl.exe" -H "Jenkins-Crumb:$($currentCrumb)" -H "Content-Type:application/xml" -d "@jenkinsJob.xml.tmp" "http://localhost:8080/createItem?name=$($projectName)" -u "$($userDetails.User):$($userDetails.Token)" 2> NULL | Out-Null
-& "$($root)\tools\curl.exe" -H "Jenkins-Crumb:$($currentCrumb)" -H "Content-Type:application/xml" -d "@jenkinsJob.xml.tmp" "http://localhost:8080/job/$($projectName)/build?delay=0" -u "$($userDetails.User):$($userDetails.Token)" 2> NULL | Out-Null
+$tmpJenkinsJobFile = (Join-Path $($root) "jenkinsJob.xml.tmp")
+[System.IO.File]::WriteAllText($tmpJenkinsJobFile, $sourceXml)
 
 
-$bashString = "#!/bin/bash`n`"$($projectRoot)\.git\tools\curl.exe`" -X POST -s -H `"Jenkins-Crumb:$($currentCrumb)`" `"http://localhost:8080/job/$($projectName)/build?delay=0`" -u `"$($userDetails.User):$($userDetails.Token)`" > /dev/nul"
+Write-Host "Creating Job...from file $tmpJenkinsJobFile" -BackgroundColor $backColour -ForegroundColor $foreColour
+& "$($root)\tools\curl.exe" -H "Jenkins-Crumb:$($currentCrumb)" -H "Content-Type:application/xml" -d "@$tmpJenkinsJobFile" "http://localhost:8080/createItem?name=$($projectName)" -u "$($userDetails.User):$($userDetails.Token)"
+& "$($root)\tools\curl.exe" -X POST -s -H Jenkins-Crumb:$currentCrumb http://localhost:8080/job/$projectName/build?delay=0 -u "$($userDetails.User):$($userDetails.Token)"
+
+New-Item -ItemType Directory -Path (Split-Path "$($projectPath)\.git\tools\curl.exe") -Force | Out-Null
+Copy-Item -Path  "$($root)\tools\curl.exe"  -Destination "$($projectPath)\.git\tools\curl.exe" -Force | Out-Null
+Copy-Item -Path  "$($root)\tools\ca-bundle.crt"  -Destination "$($projectPath)\.git\tools\curl-ca-bundle.crt" -Force | Out-Null
+
+$bashString = "#!/bin/bash`nNAME=`$(git branch | grep '*' | sed 's/* //') `n`"$($projectPath)\.git\tools\curl.exe`" -X POST -s -H `"Jenkins-Crumb:$($currentCrumb)`" `"http://localhost:8080/job/$($projectName)/build?delay=0`" -u `"$($userDetails.User):$($userDetails.Token)`" > /dev/nul`n`"$($projectPath)\.git\tools\curl.exe`" -X POST -s -H `"Jenkins-Crumb:$($currentCrumb)`" `"http://localhost:8080/job/$($projectName)/job/`$NAME/build?delay=0`" -u `"$($userDetails.User):$($userDetails.Token)`" > /dev/nul"
 [System.IO.File]::WriteAllText((Join-Path $($projectPath) ".git\hooks\post-commit"), $bashString)
-
-Write-Host "Sleeping 5 seconds..." -BackgroundColor $backColour -ForegroundColor $foreColour
-Start-Sleep -Seconds 5
-
-Start-Process "http://localhost:8080/job/$($projectName)"
 
 

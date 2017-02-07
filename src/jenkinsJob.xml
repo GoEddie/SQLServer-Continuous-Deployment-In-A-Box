@@ -41,7 +41,7 @@
 <jenkins.branch.BranchSource>
 <source class="jenkins.plugins.git.GitSCMSource" plugin="git@3.0.1">
 <id>23960360-167b-4dba-b251-7fa709b9ed1d</id>
-<remote>file://%%PROJECT%%</remote>
+<remote>"file://%%PROJECT%%"</remote>
 <credentialsId/>
 <includes>*</includes>
 <excludes/>

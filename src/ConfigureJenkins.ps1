@@ -3,7 +3,6 @@
 $backColour = "White"
 $foreColour = "Black"
 
-
 $root = [System.IO.Path]::GetDirectoryName($myInvocation.MyCommand.Definition)
 
 function Get-JenkinsUser{  
@@ -58,8 +57,8 @@ $tmpJenkinsJobFile = (Join-Path $($root) "jenkinsJob.xml.tmp")
 
 
 Write-Host "Creating Job...from file $tmpJenkinsJobFile" -BackgroundColor $backColour -ForegroundColor $foreColour
-& "$($root)\tools\curl.exe" -H "Jenkins-Crumb:$($currentCrumb)" -H "Content-Type:application/xml" -d "@$tmpJenkinsJobFile" "http://localhost:8080/createItem?name=$($projectName)" -u "$($userDetails.User):$($userDetails.Token)"
-& "$($root)\tools\curl.exe" -X POST -s -H Jenkins-Crumb:$currentCrumb http://localhost:8080/job/$projectName/build?delay=0 -u "$($userDetails.User):$($userDetails.Token)"
+& "$($root)\tools\curl.exe" -X POST -s -H Jenkins-Crumb:$($currentCrumb) -H "Content-Type:application/xml" -d "@$tmpJenkinsJobFile" "http://localhost:8080/createItem?name=$($projectName)" -u "$($userDetails.User):$($userDetails.Token)" | Out-Null
+& "$($root)\tools\curl.exe" -X POST -s -H Jenkins-Crumb:$currentCrumb http://localhost:8080/job/$projectName/build?delay=0 -u "$($userDetails.User):$($userDetails.Token)" | Out-Null
 
 New-Item -ItemType Directory -Path (Split-Path "$($projectPath)\.git\tools\curl.exe") -Force | Out-Null
 Copy-Item -Path  "$($root)\tools\curl.exe"  -Destination "$($projectPath)\.git\tools\curl.exe" -Force | Out-Null

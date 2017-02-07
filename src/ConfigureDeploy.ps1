@@ -12,7 +12,7 @@ cd $projectPath\Deploy
 if(!(Test-Path ./nuget.exe)){
     wget https://dist.nuget.org/win-x86-commandline/latest/nuget.exe -OutFile ./nuget.exe
 }
-./nuget install Microsoft.Data.Tools.Msbuild -o  $projectPath\Deploy\bin
+./nuget install Microsoft.Data.Tools.Msbuild -o  "$projectPath\Deploy\bin"
 
 $sqlPackagePath = ""
 
@@ -48,12 +48,12 @@ while("Y" -ne $yn.ToUpperInvariant()) {
 $xml = "<?xml version=`"1.0`" encoding=`"utf-8`"?><Project ToolsVersion=`"14.0`" xmlns=`"http://schemas.microsoft.com/developer/msbuild/2003`"><PropertyGroup><IncludeCompositeObjects>True</IncludeCompositeObjects><CreateNewDatabase>True</CreateNewDatabase><TargetDatabaseName>Database.UnitTests</TargetDatabaseName><DeployScriptFileName>Database.UnitTests.sql</DeployScriptFileName><TargetConnectionString>%CONNECTIONSTRING%</TargetConnectionString><ProfileVersionNumber>1</ProfileVersionNumber></PropertyGroup></Project>"
 
 $xml = $xml.Replace("%CONNECTIONSTRING%", $testDbConnection)
-$publishProfile = (Join-Path $($projectPath) "Test\Database.UnitTests\Database.UnitTests.Publish.xml")
+$publishProfile = (Join-Path $($projectPath) "Test\Database.UnitTests\Database.UnitTests.PublishProfile.xml")
 [System.IO.File]::WriteAllText($publishProfile, $xml)
 
 $dacpac = (Join-Path $projectPath  "Test\Database.UnitTests\bin\debug\Database.UnitTests.dacpac")
 
-$testProjectDeployCommand = "$($sqlPackagePath)\sqlpackage.exe /Action:Publish /Profile:`$(`$publishProfile) /TargetDatabaseName:Database.UnitTests /SourceFile:`$dacpac"
+$testProjectDeployCommand = "$($sqlPackagePath)\sqlpackage.exe /Action:Publish /Profile:`$publishProfile /TargetDatabaseName:`$databaseName /SourceFile:`$dacpac"
 $deployScriptPath = Join-Path $projectPath "Deploy\DeployDacpac.ps1"
 
 [System.IO.File]::WriteAllText($deployScriptPath, ([System.IO.File]::ReadAllText($deployScriptPath) + "`n" + $testProjectDeployCommand))

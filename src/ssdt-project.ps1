@@ -4,7 +4,7 @@ $foreColour = "Black"
 
 $root = [System.IO.Path]::GetDirectoryName($myInvocation.MyCommand.Definition)
 $sourceDir = Join-Path $root "template\Database"
-$templateDir = Join-Path $env:HOMEPATH "Documents\CDInABox"
+$templateDir = Join-Path $env:HOMEPATH "Documents\CD In A Box"
 $projectRoot = Join-Path $templateDir "Database" 
 
 $i = 0
@@ -25,6 +25,8 @@ $projectRoot = (Get-Item $projectRoot).FullName
 
 Write-Host "Creating Git Repo"  -BackgroundColor $backColour -ForegroundColor $foreColour
 cd $projectRoot
+
+pwd
 git init
 
 function Get-ModelVersion{
@@ -113,10 +115,10 @@ while(!$configured){
 }
 
 $projectName = (Split-Path $projectRoot -Leaf)
+$projectRoot
+powershell.exe -File "$root/ConfigureJenkins.ps1" -projectPath $projectRoot -projectName $projectName
 
-powershell.exe $root/ConfigureJenkins.ps1 -projectPath "$projectRoot" -projectName $projectName
-
-powershell.exe  $root/ConfigureDeploy.ps1  -projectPath "$projectRoot" -projectName $projectName
+powershell.exe -File "$root/ConfigureDeploy.ps1"  -projectPath $projectRoot -projectName $projectName
 
 git add .
 git commit -m "Adding template"

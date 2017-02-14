@@ -64,7 +64,7 @@ New-Item -ItemType Directory -Path (Split-Path "$($projectPath)\.git\tools\curl.
 Copy-Item -Path  "$($root)\tools\curl.exe"  -Destination "$($projectPath)\.git\tools\curl.exe" -Force | Out-Null
 Copy-Item -Path  "$($root)\tools\ca-bundle.crt"  -Destination "$($projectPath)\.git\tools\curl-ca-bundle.crt" -Force | Out-Null
 
-$bashString = "#!/bin/bash`nNAME=`$(git branch | grep '*' | sed 's/* //') `n`"$($projectPath)\.git\tools\curl.exe`" -X POST -s -H `"Jenkins-Crumb:$($currentCrumb)`" `"http://localhost:8080/job/$($projectName)/build?delay=0`" -u `"$($userDetails.User):$($userDetails.Token)`" > /dev/nul`n`"$($projectPath)\.git\tools\curl.exe`" -X POST -s -H `"Jenkins-Crumb:$($currentCrumb)`" `"http://localhost:8080/job/$($projectName)/job/`$NAME/build?delay=0`" -u `"$($userDetails.User):$($userDetails.Token)`" > /dev/nul"
+$bashString = "#!/bin/bash`nNAME=`$(git branch | grep '*' | sed 's/* //') `n`"$($projectPath)\.git\tools\curl.exe`" -X POST -s -H `"Jenkins-Crumb:$($currentCrumb)`" `"http://localhost:8080/job/$($projectName)/build?delay=0`" -u `"$($userDetails.User):$($userDetails.Token)`" > /dev/nul`n"
 [System.IO.File]::WriteAllText((Join-Path $($projectPath) ".git\hooks\post-commit"), $bashString)
 
 

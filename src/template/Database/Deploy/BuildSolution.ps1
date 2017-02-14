@@ -27,3 +27,6 @@ $root
 cd $root
 cd ..
 & $msbuildPath .\Database.sln
+if(!($?) -or $lastExitCode -ne 0){
+    exit(1)
+}

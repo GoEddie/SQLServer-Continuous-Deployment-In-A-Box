@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RunSettings>
-    <TestRunParameters>
-    <Parmeter name="TestDatabaseConnectionString" value="%CONNECTIONSTRING%" /> 
-    <Parameter name="IncludePath" value="Database.UnitTests" />
-    </TestRunParameters>
-</RunSettings>

@@ -37,7 +37,12 @@ while("Y" -ne $yn.ToUpperInvariant()) {
     Write-Host "password?"  -BackgroundColor $backColour -ForegroundColor $foreColour
 
     $pass = Read-Host
-    $testDbConnection = "Server=$($instance);UID=$($user);PWD=$($pass)"
+
+    Write-Host "database name? (Database.UnitTests is a great name for a test database)"   -BackgroundColor $backColour -ForegroundColor $foreColour
+
+    $db = Read-Host
+
+    $testDbConnection = "Server=$($instance);UID=$($user);PWD=$($pass);Initial Catalog=$($db)"
 
     Write-Host "Great, so we should use `"$($testDbConnection)`" as the connection string to the unit test database (which will be dropped and re-created for every build) is that right? (y/n)" -BackgroundColor $backColour -ForegroundColor $foreColour
 
@@ -45,15 +50,15 @@ while("Y" -ne $yn.ToUpperInvariant()) {
 }
 
 
-$xml = "<?xml version=`"1.0`" encoding=`"utf-8`"?><Project ToolsVersion=`"14.0`" xmlns=`"http://schemas.microsoft.com/developer/msbuild/2003`"><PropertyGroup><IncludeCompositeObjects>True</IncludeCompositeObjects><CreateNewDatabase>True</CreateNewDatabase><TargetDatabaseName>Database.UnitTests</TargetDatabaseName><DeployScriptFileName>Database.UnitTests.sql</DeployScriptFileName><TargetConnectionString>%CONNECTIONSTRING%</TargetConnectionString><ProfileVersionNumber>1</ProfileVersionNumber></PropertyGroup></Project>"
+$xml = "<?xml version=`"1.0`" encoding=`"utf-8`"?><Project ToolsVersion=`"14.0`" xmlns=`"http://schemas.microsoft.com/developer/msbuild/2003`"><PropertyGroup><IncludeCompositeObjects>True</IncludeCompositeObjects><CreateNewDatabase>True</CreateNewDatabase><TargetDatabaseName>$($db)</TargetDatabaseName><DeployScriptFileName>Database.UnitTests.sql</DeployScriptFileName><TargetConnectionString>%CONNECTIONSTRING%</TargetConnectionString><ProfileVersionNumber>1</ProfileVersionNumber></PropertyGroup></Project>"
 
 $xml = $xml.Replace("%CONNECTIONSTRING%", $testDbConnection)
 $publishProfile = (Join-Path $($projectPath) "Test\Database.UnitTests\Database.UnitTests.PublishProfile.xml")
 [System.IO.File]::WriteAllText($publishProfile, $xml)
 
-$dacpac = (Join-Path $projectPath  "Test\Database.UnitTests\bin\debug\Database.UnitTests.dacpac")
+#$dacpac = (Join-Path $projectPath  "Test\Database.UnitTests\bin\debug\Database.UnitTests.dacpac")
 
-$testProjectDeployCommand = "& `"$($sqlPackagePath)\sqlpackage.exe`" /Action:Publish /Profile:`"`$publishProfile`" /TargetDatabaseName:`"`$databaseName`" /SourceFile:`"`$dacpac`""
+$testProjectDeployCommand = "& `"$($sqlPackagePath)\sqlpackage.exe`" /Action:Publish /Profile:`"`$publishProfile`" /SourceFile:`"`$dacpac`""
 $deployScriptPath = Join-Path $projectPath "Deploy\DeployDacpac.ps1"
 
 [System.IO.File]::WriteAllText($deployScriptPath, ([System.IO.File]::ReadAllText($deployScriptPath) + "`n" + $testProjectDeployCommand))
@@ -83,12 +88,27 @@ while("Y" -ne $yn.ToUpperInvariant()) {
     Write-Host "password?"  -BackgroundColor $backColour -ForegroundColor $foreColour
 
     $pass = Read-Host
-    $testDbConnection = "Server=$($instance);UID=$($user);PWD=$($pass)"
 
-    Write-Host "Great, so we should use `"$($testDbConnection)`" as the connection string to the unit test database (which will be dropped and re-created for every build) is that right? (y/n)" -BackgroundColor $backColour -ForegroundColor $foreColour
+    Write-Host "database name? (Database is a great name for a test database)"   -BackgroundColor $backColour -ForegroundColor $foreColour
+
+    $dbProd = Read-Host
+
+    $dbConnection = "Server=$($instance);UID=$($user);PWD=$($pass);Initial Catalog=$($dbProd)"
+
+    Write-Host "Great, so we should use `"$($dbConnection)`" as the connection string to the PRODUCTION (or demo production database) is that right? (y/n)" -BackgroundColor $backColour -ForegroundColor $foreColour
 
     $yn = Read-Host
 }
 
 
 
+$xml = "<?xml version=`"1.0`" encoding=`"utf-8`"?><Project ToolsVersion=`"14.0`" xmlns=`"http://schemas.microsoft.com/developer/msbuild/2003`"><PropertyGroup><IncludeCompositeObjects>True</IncludeCompositeObjects><CreateNewDatabase>False</CreateNewDatabase><TargetDatabaseName>$($dbProd)</TargetDatabaseName><DeployScriptFileName>Database.sql</DeployScriptFileName><TargetConnectionString>%CONNECTIONSTRING%</TargetConnectionString><ProfileVersionNumber>1</ProfileVersionNumber></PropertyGroup></Project>"
+
+$xml = $xml.Replace("%CONNECTIONSTRING%", $dbConnection)
+$publishProfile = (Join-Path $($projectPath) "Database\Database.PublishProfile.xml")
+[System.IO.File]::WriteAllText($publishProfile, $xml)
+
+
+$jenkinsFilePath = (Join-Path $($projectPath) "Jenkinsfile")
+
+[System.IO.File]::WriteAllText($jenkinsFilePath, ([System.IO.File]::ReadAllText($jenkinsFilePath).Replace("~~TESTDBNAME~~", $db).Replace("~~PRODDBNAME~~", $dbProd)))

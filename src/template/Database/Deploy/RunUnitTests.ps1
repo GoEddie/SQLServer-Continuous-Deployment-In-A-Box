@@ -6,7 +6,9 @@ cd $projectPath
 
 $files = ""
 
-ls $projectPath\Test\Database.UnitTests\*.sql -recurse | %{ $iles += "`"$_.FullName`" "  }
+ls $projectPath\Test\Database.UnitTests\*.sql -recurse | %{ $files += "`"$($_.FullName)`" "  }
+$files
+
 
 $mstestPath = Join-Path  ${env:ProgramFiles(x86)} "\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe"
 if(!(Test-Path $mstestPath)){
@@ -19,6 +21,13 @@ if(!(Test-Path $mstestPath)){
 }
 
 & "$($projectPath)deploy/nuget.exe" install AgileSQLClub.tSQLtTestAdapter -o $projectPath\Test\Lib
-$testAdapterPath = (ls $projectPath\Test\Lib\AgileSQLClub.tSQLtTestAdapter\tSQLt.TestAdapter.dll | %{ $_.Directory })
+$testAdapterPath = (ls tSQLt.TestAdapter.dll -recurse | %{ $_.Directory })
+$args = "`"/TestAdapterPath:$testAdapterPath`" `"/Settings:$projectPath\Test\Database.UnitTests\Database.UnitTests.runsettings`" $($files)"
 
-& $mstestPath /TestAdapterPath:"$testAdapterPath" /Settings:"$projectPath\Test\Database.UnitTests\Database.UnitTests.runsettings" $files
+$fullCommand = '& "' + $msTestPath + '" --% ' + $args
+Invoke-Expression $fullCommand
+if(!($?) -or $lastExitCode -ne 0){
+    exit(1)
+}
+
+

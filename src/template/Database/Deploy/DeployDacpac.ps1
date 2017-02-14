@@ -1,3 +1,3 @@
-param([string]$dacpac, [string]$publishProfile, [string]$databaseName)
+param([string]$dacpac, [string]$publishProfile)
 
 

@@ -22,6 +22,9 @@ Write-Host "*                                                                   
 Write-Host "*                                                                                                                       *"  -BackgroundColor $backColour -ForegroundColor $foreColour
 Write-Host "You will now see a web browser and you will asked for a password, enter in the password:                                *"  -BackgroundColor $backColour -ForegroundColor $foreColour
 
+if(!(Test-Path ${env:ProgramFiles(x86)}\Jenkins\secrets\initialAdminPassword)){
+    Write-Host "`t`t ERROR the password file was not found, have you already setup jenkins on here?? - see if you can browse to jenkins, it might already be working?? "  -BackgroundColor $backColour -ForegroundColor $foreColour    
+}
 type ${env:ProgramFiles(x86)}\Jenkins\secrets\initialAdminPassword
 
 Write-Host "*                                                                                                                       *"  -BackgroundColor $backColour -ForegroundColor $foreColour

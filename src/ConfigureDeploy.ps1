@@ -42,7 +42,7 @@ while("Y" -ne $yn.ToUpperInvariant()) {
 
     $db = Read-Host
 
-    $testDbConnection = "Server=$($instance);UID=$($user);PWD=$($pass);Initial Catalog=$($db)"
+    $testDbConnection = "Server=$($instance);UID=$($user);PWD=$($pass);"
 
     Write-Host "Great, so we should use `"$($testDbConnection)`" as the connection string to the unit test database (which will be dropped and re-created for every build) is that right? (y/n)" -BackgroundColor $backColour -ForegroundColor $foreColour
 
@@ -64,7 +64,7 @@ $deployScriptPath = Join-Path $projectPath "Deploy\DeployDacpac.ps1"
 $sourceRunSettingsFile = (Join-Path $projectPath "Test\Database.UnitTests\Database.UnitTests.runsettings")
 $runSettings = [System.IO.File]::ReadAllText($sourceRunSettingsFile)
 
-$runSettings = $runSettings.Replace("%CONNECTIONSTRING%", $testDbConnection)
+$runSettings = $runSettings.Replace("%CONNECTIONSTRING%", "$($testDbConnection);initial catalog=$($db);" )
 [System.IO.File]::WriteAllText($sourceRunSettingsFile, $runSettings)
 
 
@@ -91,7 +91,7 @@ while("Y" -ne $yn.ToUpperInvariant()) {
 
     $dbProd = Read-Host
 
-    $dbConnection = "Server=$($instance);UID=$($user);PWD=$($pass);Initial Catalog=$($dbProd)"
+    $dbConnection = "Server=$($instance);UID=$($user);PWD=$($pass);"
 
     Write-Host "Great, so we should use `"$($dbConnection)`" as the connection string to the PRODUCTION (or demo production database) is that right? (y/n)" -BackgroundColor $backColour -ForegroundColor $foreColour
 

@@ -1,4 +1,4 @@
-2$backColour = "White"
+$backColour = "White"
 $foreColour = "Black"
 
 $root = [System.IO.Path]::GetDirectoryName($myInvocation.MyCommand.Definition)

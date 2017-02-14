@@ -1,5 +1,4 @@
-
-$backColour = "White"
+2$backColour = "White"
 $foreColour = "Black"
 
 $root = [System.IO.Path]::GetDirectoryName($myInvocation.MyCommand.Definition)
@@ -13,10 +12,10 @@ powershell.exe -File $script
 
 & ${env:ProgramFiles(x86)}\Jenkins\jenkins.exe stop | Out-Null
 & ${env:ProgramFiles(x86)}\Jenkins\jenkins.exe start
-Start-Sleep 10
+Start-Sleep 20
 
 Start-Process "http://localhost:8080"
-Start-Sleep 10
+Start-Sleep 20
 Write-Host "*************************************************************************************************************************"  -BackgroundColor $backColour -ForegroundColor $foreColour
 Write-Host "*                                                                                                                       *"  -BackgroundColor $backColour -ForegroundColor $foreColour
 Write-Host "*                                                                                                                       *"  -BackgroundColor $backColour -ForegroundColor $foreColour

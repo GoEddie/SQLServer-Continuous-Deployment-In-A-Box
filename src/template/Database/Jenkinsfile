@@ -13,7 +13,7 @@ node {
 
 node {
     stage 'Unit Tests'
-    bat 'powershell.exe -ExecutionPolicy RemoteSigned -File "%WORKSPACE%/Deploy/DeployDacpac.ps1" -projectPath "%WORKSPACE%" -dacpac "%WORKSPACE%/Test/Database.UnitTests/bin/Debug/Database.UniTests.dacpac" -publishProfile "%WORKSPACE%/Test/Database.UnitTests/Database.UnitTests.PublishProfile.xml"'
+    bat 'powershell.exe -ExecutionPolicy RemoteSigned -File "%WORKSPACE%/Deploy/DeployDacpac.ps1" -projectPath "%WORKSPACE%" -dacpac "%WORKSPACE%/Test/Database.UnitTests/bin/Debug/Database.UnitTests.dacpac" -publishProfile "%WORKSPACE%/Test/Database.UnitTests/Database.UnitTests.PublishProfile.xml"'
     bat 'powershell.exe -ExecutionPolicy RemoteSigned -File "%WORKSPACE%/Deploy/RunUnitTests.ps1"  -projectPath "%WORKSPACE%/"'
 }
 
@@ -22,11 +22,12 @@ stage 'Production'
 if( env.JOB_NAME =~ /.*\/master/ ) {    
         node {       
             bat 'powershell.exe -ExecutionPolicy RemoteSigned -File "%WORKSPACE%/Deploy/GenerateDeployScript.ps1" -projectPath "%WORKSPACE%" -dacpac "%WORKSPACE%/Database/bin/Debug/Database.dacpac" -publishProfile "%WORKSPACE%/Database/Database.PublishProfile.xml"'
+            archiveArtifacts artifacts: 'Artifacts/Prod.sql', fingerprint: true 
         }
 }
 
 if( env.JOB_NAME =~ /.*\/release.*/ ) {      
         node{            
-            bat 'powershell.exe -ExecutionPolicy RemoteSigned -File "%WORKSPACE%/Deploy/DeployDacpac.ps1" -projectPath "%WORKSPACE%" -dacpac "%WORKSPACE/Database/bin/Debug/Database.dacpac" -publishProfile "%WORKSPACE%/Database/Database.PublishProfile.xml"'            
+            bat 'powershell.exe -ExecutionPolicy RemoteSigned -File "%WORKSPACE%/Deploy/DeployDacpac.ps1" -projectPath "%WORKSPACE%" -dacpac "%WORKSPACE%/Database/bin/Debug/Database.dacpac" -publishProfile "%WORKSPACE%/Database/Database.PublishProfile.xml"'            
         }
 }

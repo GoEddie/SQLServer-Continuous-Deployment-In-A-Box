@@ -56,8 +56,6 @@ $xml = $xml.Replace("%CONNECTIONSTRING%", $testDbConnection)
 $publishProfile = (Join-Path $($projectPath) "Test\Database.UnitTests\Database.UnitTests.PublishProfile.xml")
 [System.IO.File]::WriteAllText($publishProfile, $xml)
 
-#$dacpac = (Join-Path $projectPath  "Test\Database.UnitTests\bin\debug\Database.UnitTests.dacpac")
-
 $testProjectDeployCommand = "& `"$($sqlPackagePath)\sqlpackage.exe`" /Action:Publish /Profile:`"`$publishProfile`" /SourceFile:`"`$dacpac`""
 $deployScriptPath = Join-Path $projectPath "Deploy\DeployDacpac.ps1"
 
@@ -112,3 +110,10 @@ $publishProfile = (Join-Path $($projectPath) "Database\Database.PublishProfile.x
 $jenkinsFilePath = (Join-Path $($projectPath) "Jenkinsfile")
 
 [System.IO.File]::WriteAllText($jenkinsFilePath, ([System.IO.File]::ReadAllText($jenkinsFilePath).Replace("~~TESTDBNAME~~", $db).Replace("~~PRODDBNAME~~", $dbProd)))
+
+#Write GenerateScript.ps1 - this creates the dpeloy script for prod
+
+$testProjectDeployCommand = "& `"$($sqlPackagePath)\sqlpackage.exe`" /Action:Script /Profile:`"`$publishProfile`" /SourceFile:`"`$dacpac`" /OutputPath:`"`$projectPath/Artifacts/Prod.sql`""
+$deployScriptPath = Join-Path $projectPath "Deploy\GenerateDeployScript.ps1"
+
+[System.IO.File]::WriteAllText($deployScriptPath, ([System.IO.File]::ReadAllText($deployScriptPath) + "`n" + $testProjectDeployCommand))

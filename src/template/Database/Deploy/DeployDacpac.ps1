@@ -1,3 +1,3 @@
-param([string]$dacpac, [string]$publishProfile)
+param([string]$dacpac, [string]$publishProfile, [string]$projectPath)
 
 

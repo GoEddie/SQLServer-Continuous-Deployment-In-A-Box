@@ -3,4 +3,5 @@
     <TestRunParameters>
     <Parmeter name="TestDatabaseConnectionString" value="%CONNECTIONSTRING%" /> 
     <Parameter name="IncludePath" value="Database.UnitTests" />
+    </TestRunParameters>
 </RunSettings>

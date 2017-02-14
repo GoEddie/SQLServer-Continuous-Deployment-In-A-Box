@@ -2,6 +2,8 @@ param(
     [string]$projectPath
 )
 
+cd $projectPath
+
 $files = ""
 
 ls $projectPath\Test\Database.UnitTests\*.sql -recurse | %{ $iles += "`"$_.FullName`" "  }
@@ -16,7 +18,7 @@ if(!(Test-Path $mstestPath)){
     Exit(1)
 }
 
-./nuget install AgileSQLClub.tSQLtTestAdapter -o $projectPath\Test\Lib
+& "$($projectPath)deploy/nuget.exe" install AgileSQLClub.tSQLtTestAdapter -o $projectPath\Test\Lib
 $testAdapterPath = (ls $projectPath\Test\Lib\AgileSQLClub.tSQLtTestAdapter\tSQLt.TestAdapter.dll | %{ $_.Directory })
 
-& $mstestPath /TestAdapterPath:$testAdapterPath /Settings:"$projectPath\Test\Database.UnitTests\Database.UnitTests.runsettings" $files
+& $mstestPath /TestAdapterPath:"$testAdapterPath" /Settings:"$projectPath\Test\Database.UnitTests\Database.UnitTests.runsettings" $files

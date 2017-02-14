@@ -15,8 +15,8 @@ if(!(Test-Path $mstestPath)){
     Write-Host "Can't find vstest.console?? make sure you installed visual studio 2015 or 2017 but there is probably some package you can install if not"  -BackgroundColor $backColour -ForegroundColor $foreColour
     Exit(1)
 }
-
-./nuget install AgileSQLClub.tSQLtTestAdapter -o $projectPath\Test\Lib
-$testAdapterPath = (ls $projectPath\Test\Lib\AgileSQLClub.tSQLtTestAdapter\tSQLt.TestAdapter.dll | %{ $_.Directory })
-
+cd $projectPath
+./deploy/nuget install AgileSQLClub.tSQLtTestAdapter -o $projectPath\Test\Lib
+$testAdapterPath = (ls "tSQLt.TestAdapter.dll" -recurse | %{ ($_.Directory).FullName })
+Write-Host "Test Adapter Path: " $testAdapterPath
 & $mstestPath /TestAdapterPath:$testAdapterPath /Settings:"$projectPath\Test\Database.UnitTests\Database.UnitTests.runsettings" $files

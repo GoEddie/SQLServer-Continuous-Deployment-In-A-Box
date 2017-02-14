@@ -14,4 +14,7 @@ node {
 node {
     stage 'Unit Tests'
     bat 'powershell.exe -ExecutionPolicy RemoteSigned -File "%WORKSPACE%/Deploy/DeployDacpac.ps1"  -dacpac "%WORKSPACE%/Test/Database.UnitTests/bin/Debug/Database.UnitTests.dacpac" -publishProfile "%WORKSPACE%/Test/Database.UnitTests/Database.UnitTests.publishProfile.xml" -databaseName Database.UnitTests'
+
+    bat 'powershell.exe -ExecutionPolicy RemoteSigned -File "%WORKSPACE%/Deploy/RunUnitTests.ps1"  -projectPath "%WORKSPACE%/"'
+    
 }

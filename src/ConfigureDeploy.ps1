@@ -53,7 +53,7 @@ $publishProfile = (Join-Path $($projectPath) "Test\Database.UnitTests\Database.U
 
 $dacpac = (Join-Path $projectPath  "Test\Database.UnitTests\bin\debug\Database.UnitTests.dacpac")
 
-$testProjectDeployCommand = "$($sqlPackagePath)\sqlpackage.exe /Action:Publish /Profile:`$publishProfile /TargetDatabaseName:`$databaseName /SourceFile:`$dacpac"
+$testProjectDeployCommand = "& `"$($sqlPackagePath)\sqlpackage.exe`" /Action:Publish /Profile:`"`$publishProfile`" /TargetDatabaseName:`"`$databaseName`" /SourceFile:`"`$dacpac`""
 $deployScriptPath = Join-Path $projectPath "Deploy\DeployDacpac.ps1"
 
 [System.IO.File]::WriteAllText($deployScriptPath, ([System.IO.File]::ReadAllText($deployScriptPath) + "`n" + $testProjectDeployCommand))
@@ -65,6 +65,30 @@ $runSettings = $runSettings.Replace("%CONNECTIONSTRING%", $testDbConnection)
 [System.IO.File]::WriteAllText($sourceRunSettingsFile, $runSettings)
 
 
+
+Write-Host "We now need the connection details to the PRODUCTION database - we will be deploying to this so make sure you are happy with that. What I would suggest is that you restore a copy of your database to the local instance and we demo there" -BackgroundColor $backColour -ForegroundColor $foreColour
+
+$yn = "n"
+
+while("Y" -ne $yn.ToUpperInvariant()) {
+
+    Write-Host "What is the instance name? For this demo . will do if you have a local dev instance" -BackgroundColor $backColour -ForegroundColor $foreColour
+
+    $instance = Read-Host
+
+    Write-Host "username?"  -BackgroundColor $backColour -ForegroundColor $foreColour
+
+    $user = Read-Host
+
+    Write-Host "password?"  -BackgroundColor $backColour -ForegroundColor $foreColour
+
+    $pass = Read-Host
+    $testDbConnection = "Server=$($instance);UID=$($user);PWD=$($pass)"
+
+    Write-Host "Great, so we should use `"$($testDbConnection)`" as the connection string to the unit test database (which will be dropped and re-created for every build) is that right? (y/n)" -BackgroundColor $backColour -ForegroundColor $foreColour
+
+    $yn = Read-Host
+}
 
 
 

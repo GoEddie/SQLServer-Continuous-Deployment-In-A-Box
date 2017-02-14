@@ -128,6 +128,6 @@ Write-Host "You will now see a visual studio solution (Database.sln) and a jenki
 
 Start-Sleep -seconds 5
 
-Start-Process $projectRoot
+Start-Process $projectRoot\Database.sln
 Start-Process "http://localhost:8080/job/$($projectName)"
 
